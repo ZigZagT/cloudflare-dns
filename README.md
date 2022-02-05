@@ -24,22 +24,22 @@ optional arguments:
   -dr, --delete-record  [action] delete DNS record base on provided record frags and filters
 
 authentication arguments:
-  -z ZONE, --zone ZONE  optionally specify the zone, auto inferred from the domain parameter if not provided
+  -z ZONE, --zone ZONE  specify the zone by its domain name, usually can be inferred from the domain parameter
   -e EMAIL, --email EMAIL
                         default to environment variable CF_API_EMAIL
   -k KEY, --key KEY     default to environment variable CF_API_KEY
 
-filters:
-  limit any operations to only records matches the filters
+filtering arguments:
+  scope operations of changing / removing records by the filters
 
   --filter-content REGEX
                         filter records by matching their content against the provided regex.
 
 record frags:
-  use record frags to describes a single DNS record, you may freely provide from 0 to all 5 frags, as long as it makes sense to the chosen action
+  use record frags to describes a single DNS record, may freely provide from 0 to all 5 frags, as long as it makes sense to the chosen action
 
   {A,AAAA,CNAME,TXT,ANY}
-                        record type
+                        record type, ANY is only valid for filtering
   domain                full qualified domain name
   content               the content of the record
   ttl                   ttl value of 1 means auto on Cloudflare; ignored for -lr and -dr

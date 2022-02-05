@@ -167,7 +167,8 @@ def main():
     authn_args_group = parser.add_argument_group('authentication arguments')
     authn_args_group.add_argument(
         '-z', '--zone', type=str,
-        help='optionally specify the zone, auto inferred from the domain parameter if not provided')
+        help='specify the zone by its domain name, '
+             'usually can be inferred from the domain parameter')
     authn_args_group.add_argument(
         '-e', '--email', type=str, default=os.environ.get('CF_API_EMAIL'),
         help='default to environment variable CF_API_EMAIL')
@@ -196,8 +197,8 @@ def main():
     )
 
     filter_args_group = parser.add_argument_group(
-        'filters',
-        'limit any operations to only records matches the filters'
+        'filtering arguments',
+        'scope operations of changing / removing records by the filters'
     )
     filter_args_group.add_argument(
         '--filter-content', type=regex_type, metavar="REGEX",
@@ -206,10 +207,11 @@ def main():
 
     record_frags_group = parser.add_argument_group(
         'record frags',
-        'use record frags to describes a single DNS record, you may freely provide from 0 to all 5 frags, '
+        'use record frags to describes a single DNS record, may freely provide from 0 to all 5 frags, '
         'as long as it makes sense to the chosen action'
     )
-    record_frags_group.add_argument('type', choices=['A', 'AAAA', 'CNAME', 'TXT', 'ANY'], nargs='?', help='record type')
+    record_frags_group.add_argument('type', choices=['A', 'AAAA', 'CNAME', 'TXT', 'ANY'], nargs='?',
+                                    help='record type, ANY is only valid for filtering')
     record_frags_group.add_argument('domain', type=str, nargs='?', help='full qualified domain name')
     record_frags_group.add_argument('content', type=str, nargs='?', help='the content of the record')
     record_frags_group.add_argument('ttl', type=int, nargs='?',
