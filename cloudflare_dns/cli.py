@@ -175,6 +175,11 @@ def main():
     authn_args_group.add_argument(
         '-k', '--key', type=str, default=os.environ.get('CF_API_KEY'),
         help='default to environment variable CF_API_KEY')
+    authn_args_group.add_argument(
+        '-t', '--token', type=str, default=os.environ.get('CF_API_TOKEN'),
+        help='default to environment variable CF_API_TOKEN. Note the use of '
+        'api token is exclusive, --email and --key must not be used when --token is used.'
+    )
 
     actions_group = parser.add_mutually_exclusive_group(required=True)
     actions_group.add_argument(
@@ -221,11 +226,17 @@ def main():
 
     args = parser.parse_args()
 
-    if args.email is None or args.key is None:
-        print('email and api key are needed', file=stderr)
+    if args.token is not None and (args.email is not None or args.key is not None):
+        print('api token can not be used together with email and api key.', file=stderr)
+        return 1
+    elif args.token is None and (args.email is None or args.key is None):
+        print('authentication information needed, please supply api token, or api email and api key.', file=stderr)
         return 1
 
-    cf = CloudFlare(email=args.email, token=args.key, raw=True)
+    if args.token is None:
+        cf = CloudFlare(email=args.email, key=args.key, raw=True)
+    else:
+        cf = CloudFlare(token=args.token, raw=True)
 
     return args.entrance(cf, args)
 

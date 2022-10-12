@@ -14,7 +14,7 @@ pip install cloudflare-dns
 ## Usage
 ```
 cloudflare-dns -h
-usage: cloudflare-dns [-h] [-z ZONE] [-e EMAIL] [-k KEY] (-lz | -lr | -sr | -dr) [--filter-content REGEX] [--proxied] [{A,AAAA,CNAME,TXT,ANY}] [domain] [content] [ttl]
+usage: cloudflare-dns [-h] [-z ZONE] [-e EMAIL] [-k KEY] [-t TOKEN] (-lz | -lr | -sr | -dr) [--filter-content REGEX] [--proxied] [{A,AAAA,CNAME,TXT,ANY}] [domain] [content] [ttl]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -28,6 +28,8 @@ authentication arguments:
   -e EMAIL, --email EMAIL
                         default to environment variable CF_API_EMAIL
   -k KEY, --key KEY     default to environment variable CF_API_KEY
+  -t TOKEN, --token TOKEN
+                        default to environment variable CF_API_TOKEN. Note the use of api token is exclusive, --email and --key must not be used when --token is used.
 
 filtering arguments:
   scope operations of changing / removing records by the filters
