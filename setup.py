@@ -6,8 +6,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='cloudflare-dns',
-    version='1.0.2',
-    packages=find_packages('cloudflare_dns'),
+    version='1.0.3',
+    packages=find_packages(include=['cloudflare_dns']),
     install_requires=[
         'cloudflare'
     ],
