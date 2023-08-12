@@ -2,6 +2,8 @@ import os
 import re
 from sys import stderr
 
+from requests import HTTPError
+
 from CloudFlare import CloudFlare
 from . import get_zones, infer_zone, get_records
 
@@ -163,6 +165,7 @@ def regex_type(s):
 def main():
     from argparse import ArgumentParser, RawDescriptionHelpFormatter
     parser = ArgumentParser(formatter_class=RawDescriptionHelpFormatter)
+    parser.add_argument('--ignore-api-error', action="store_true", default=False, help='treat 5xx API responses as success')
 
     authn_args_group = parser.add_argument_group('authentication arguments')
     authn_args_group.add_argument(
@@ -238,7 +241,12 @@ def main():
     else:
         cf = CloudFlare(token=args.token, raw=True)
 
-    return args.entrance(cf, args)
+    try:
+        return args.entrance(cf, args)
+    except HTTPError as e:
+        if args.ignore_api_error and e.response and 500 <= e.response.status_code < 600:
+            return 0
+        raise
 
 
 if __name__ == '__main__':

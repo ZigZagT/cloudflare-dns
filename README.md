@@ -13,11 +13,11 @@ pip install cloudflare-dns
 
 ## Usage
 ```
-cloudflare-dns -h
-usage: cloudflare-dns [-h] [-z ZONE] [-e EMAIL] [-k KEY] [-t TOKEN] (-lz | -lr | -sr | -dr) [--filter-content REGEX] [--proxied] [{A,AAAA,CNAME,TXT,ANY}] [domain] [content] [ttl]
+usage: cloudflare-dns [-h] [--ignore-api-error] [-z ZONE] [-e EMAIL] [-k KEY] [-t TOKEN] (-lz | -lr | -sr | -dr) [--filter-content REGEX] [--proxied] [{A,AAAA,CNAME,TXT,ANY}] [domain] [content] [ttl]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
+  --ignore-api-error    treat 5xx API responses as success
   -lz, --list-zone      [action] list zones, record frags and filters are ignored for this action
   -lr, --list-record    [action] list DNS records in a zone, record frags are used as filters when provided
   -sr, --set-record     [action] create or update DNS record to match record frags, removes any existing records that matches the [type, domain] tuple; use the filters to limit the removing to matching records only
