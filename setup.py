@@ -6,10 +6,10 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name='cloudflare-dns',
-    version='1.3.0',
+    version='1.3.1',
     packages=find_packages(include=['cloudflare_dns']),
     install_requires=[
-        'cloudflare'
+        'cloudflare==2.19.*'
     ],
     entry_points={
         'console_scripts': {
